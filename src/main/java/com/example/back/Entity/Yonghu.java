@@ -1,24 +1,31 @@
 package com.example.back.Entity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+
 //定义用来查询个人信息使用的用户数据，查询需要所有的信息！
-public class Student {
-    private int student_id;
+@ApiModel(value = "学生用户信息的实体类")
+public class Yonghu {
+    @ApiModelProperty(value = "学工号")
+    private int id;
+    @ApiModelProperty(value = "姓名")
     private String name;
+    @ApiModelProperty(value = "年龄")
     private int age;
+    @ApiModelProperty(value = "性别")
     private String gender;
+    @ApiModelProperty(value = "手机号")
     private String phone;
+    @ApiModelProperty(value = "邮箱")
     private String email;
+    @ApiModelProperty(value = "所属学院")
     private String college;
+    @ApiModelProperty(value = "专业班级")
     private String major_class;
+    @ApiModelProperty(value = "宿舍号")
     private String dormitory_number;
+    @ApiModelProperty(value = "密码")
     private String password;
-
-    public int getStudent_id() {
-        return student_id;
-    }
-
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
-    }
 
     public String getName() {
         return name;
@@ -92,14 +99,21 @@ public class Student {
         this.password = password;
     }
 
-    public Student() {
+    public Yonghu() {
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
-        return "Student{" +
-                "student_id=" + student_id +
+        return "Yonghu{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +

@@ -19,7 +19,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 // 指定要⽣成api接⼝的包路径，这⾥把controller作为包路径，⽣成controller中的所有接⼝
-                .apis(RequestHandlerSelectors.basePackage("com.elevengroup.demo062801.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.back.Controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
