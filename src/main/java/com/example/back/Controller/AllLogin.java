@@ -21,19 +21,28 @@ public class AllLogin {
     @PostMapping("/doLogin")
     @ResponseBody
     @ApiOperation(value = "登陆接口")
-    public Yonghu login(@RequestBody Yonghu yonghu){
-        Yonghu yonghu2 = new Yonghu();
+    public JsonResult<Yonghu> login(@RequestBody Yonghu yonghu){
+        JsonResult<Yonghu> yonghu2 = new JsonResult<Yonghu>();
         try {
-            yonghu2= jdbc.queryForObject("select * from yonghu where id=? and password=?",new BeanPropertyRowMapper<>(Yonghu.class),yonghu.getId(),yonghu.getPassword());
-            log.info("登录成功:{}",yonghu2);
+            Yonghu yonghu3= jdbc.queryForObject("select * from yonghu where id=? and password=?",new BeanPropertyRowMapper<>(Yonghu.class),yonghu.getId(),yonghu.getPassword());
+            if(yonghu3.getActivate() == 1){
+                log.info("登录成功:{}",yonghu2);
+                yonghu2.setResult(yonghu3);
+                yonghu2.setCode(200);
+                return yonghu2;
+            }
+            else{
+                log.info("账户未激活:{}",yonghu2);
+                yonghu2.setCode(201);
+                return yonghu2;
+            }
         } catch (Exception e) {
+
             e.printStackTrace();
-            JsonResult<String> result = new JsonResult<>();
-            result.setResult("用户名或密码错误");
-            result.setCode(201);
+            yonghu2.setCode(202);
             log.error("没有收到的数据");
+            return yonghu2;
         }
-        return yonghu2;
     }
 
 

@@ -24,8 +24,23 @@ public class Yonghu {
     private String major_class;
     @ApiModelProperty(value = "宿舍号")
     private String dormitory_number;
+    @ApiModelProperty(value = "志愿时长")
+    private int volunteer;
     @ApiModelProperty(value = "密码")
     private String password;
+    @ApiModelProperty(value = "类别：1为老师，0为学生")
+    private int leibie;
+    @ApiModelProperty(value = "类别：1为激活，0为未激活")
+    private int activate;
+
+
+    public int getActivate() {
+        return activate;
+    }
+
+    public void setActivate(int activate) {
+        this.activate = activate;
+    }
 
     public String getName() {
         return name;
@@ -99,7 +114,12 @@ public class Yonghu {
         this.password = password;
     }
 
-    public Yonghu() {
+    public int getLeibie() {
+        return leibie;
+    }
+
+    public void setLeibie(int leibie) {
+        this.leibie = leibie;
     }
 
     public int getId() {
@@ -108,6 +128,17 @@ public class Yonghu {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getVolunteer() {
+        return volunteer;
+    }
+
+    public void setVolunteer(int volunteer) {
+        this.volunteer = volunteer;
+    }
+
+    public Yonghu() {
     }
 
     @Override
@@ -122,7 +153,10 @@ public class Yonghu {
                 ", college='" + college + '\'' +
                 ", major_class='" + major_class + '\'' +
                 ", dormitory_number='" + dormitory_number + '\'' +
+                ", volunteer=" + volunteer +
                 ", password='" + password + '\'' +
+                ", leibie=" + leibie +
+                ", activate=" + activate +
                 '}';
     }
 }
