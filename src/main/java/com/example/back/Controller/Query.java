@@ -1,6 +1,8 @@
 package com.example.back.Controller;
 
 import com.example.back.Entity.Yonghu;
+import com.example.back.beans.CourseTable;
+import com.example.back.beans.IdForPost;
 import com.example.back.beans.JsonResult;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.swagger.annotations.Api;
@@ -11,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Name;
 import java.awt.*;
@@ -128,14 +127,32 @@ public class Query {
         }
 
         return yonghuJsonResult;
+    }
+
+    @PostMapping("/queryCourse")
+    @ApiOperation(value = "查询学生课程消息")
+    public JsonResult<ArrayList<CourseTable>> querycourse(@RequestBody IdForPost id){
+        JsonResult<ArrayList<CourseTable>> jsonResult = new JsonResult<>();
+        ArrayList<CourseTable> arrayList= new ArrayList<>();
+        try {
+            arrayList = (ArrayList<CourseTable>) jdbc.query("SELECT course_name,course_room,startDate,week,time,duration FROM courserelation natural join course natural join weekforcourse where student_id = ?",new BeanPropertyRowMapper<>(CourseTable.class),(Integer)id.getId());
+            System.out.println(arrayList);
+            jsonResult.setResult(arrayList);
+            jsonResult.setCode(200);
+
+            log.info("查询成功");
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            jsonResult.setCode(201);
+            log.error("查询失败");
+        }
 
 
-
+        return jsonResult ;
 
 
     }
-
-
 
 
 
