@@ -1,8 +1,12 @@
 package com.example.back.beans;
 
 
-public class Feedback {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(value = "接受前端数据的类（发送反馈用）")
+public class Feedback {
+  @ApiModelProperty(value = "反馈内容")
   private String content;
 
   public String getContent() {
