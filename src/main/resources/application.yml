@@ -9,3 +9,6 @@ spring:
     username: jly
     password: mysql
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
