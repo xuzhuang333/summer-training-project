@@ -84,6 +84,56 @@ public class Query {
         return yonghuJsonResult.getResult().getVolunteer();
     }
 
+    @GetMapping("/myclass/{id}")
+    @ApiOperation(value = "查询班级信息接口，学生都可用")
+    public JsonResult<ArrayList> Querymyclass(@PathVariable Integer id){
+        Yonghu yonghu = new Yonghu();//存找到的用户
+        String name = null;//存辅导员
+        String college;//存学院
+        String majorclass;//学院班级
+        ArrayList<Object> arrayList = new ArrayList<>();
+        Integer count = 0;//班级人数
+
+        JsonResult<ArrayList> yonghuJsonResult = new JsonResult<>();
+        try {
+            yonghu = jdbc.queryForObject("SELECT * FROM yonghu where id=?",new BeanPropertyRowMapper<>(Yonghu.class),id);
+            college = yonghu.getCollege();
+            majorclass = yonghu.getMajor_class();
+            log.info("该学生存在:{}",yonghu);
+            try {
+                count = jdbc.queryForObject("SELECT COUNT(*) AS count FROM yonghu WHERE major_class = ?",Integer.class,majorclass);
+            } catch (DataAccessException e) {
+                e.printStackTrace();
+                yonghuJsonResult.setCode(201);
+
+                log.error("查询班级人数错误");
+            }
+            try {
+                name  = jdbc.queryForObject("SELECT name FROM yonghu where college=? and leibie = ?",String.class,college,1);
+            } catch (DataAccessException e) {
+                e.printStackTrace();
+                yonghuJsonResult.setCode(203);
+                log.error("查询辅导员姓名错误");
+            }
+            arrayList.add(name);
+            arrayList.add(college);
+            arrayList.add(majorclass);
+            arrayList.add(count);
+            yonghuJsonResult.setResult(arrayList);
+            yonghuJsonResult.setCode(200);
+        } catch (DataAccessException e) {
+            yonghuJsonResult.setCode(202);
+            e.printStackTrace();
+            log.error("ID不存在！");
+        }
+
+        return yonghuJsonResult;
+
+
+
+
+
+    }
 
 
 

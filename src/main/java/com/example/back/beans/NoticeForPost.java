@@ -1,7 +1,13 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "发布消息：接受前端信息的类")
 public class NoticeForPost {
+    @ApiModelProperty(value = "传入消息标题")
     private String title;
+    @ApiModelProperty(value = "传入消息内容")
     private String content;
 
     public String getTitle() {
