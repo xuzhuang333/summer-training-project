@@ -1,5 +1,8 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "课表需要数据的对象类")
 public class CourseTable {
     private String course_name;
     private String course_room;

@@ -1,5 +1,8 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "前端点击选课时发送的数据的对象类")
 public class CourseForPost {
     private String course_num;
     private String course_name;
