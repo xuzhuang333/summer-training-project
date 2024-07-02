@@ -144,9 +144,26 @@ public class StudentController {
             jsonResult.setResult("已选择，选课失败");
         }
 
-
-
         return jsonResult;
+    }
+
+    @PostMapping("/library") //图书馆
+    public JsonResult doLogin(@RequestBody Book book){
+        JsonResult res = new JsonResult();
+        System.out.println("接收到的数据:");
+        System.out.println(book);
+        try {
+            Book bk = jdbc.queryForObject("select * from book where name=?",
+                    new BeanPropertyRowMapper<>(Book.class), book.getName());
+            res.setCode(200);
+            res.setResult(bk);//用户数据放入结果中
+            return res;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode(201);
+            res.setResult("您搜索的图书不存在");
+            return res;
+        }
     }
 }
 
