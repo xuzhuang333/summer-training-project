@@ -7,7 +7,15 @@ public class Notice {
   private String noticeTitle;
   private String time;
   private String type;
+  private String content;
 
+  public String getContent() {
+    return content;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+  }
 
   public long getNoticeId() {
     return noticeId;
@@ -44,4 +52,14 @@ public class Notice {
     this.type = type;
   }
 
+  @Override
+  public String toString() {
+    return "Notice{" +
+            "noticeId=" + noticeId +
+            ", noticeTitle='" + noticeTitle + '\'' +
+            ", time='" + time + '\'' +
+            ", type='" + type + '\'' +
+            ", content='" + content + '\'' +
+            '}';
+  }
 }
