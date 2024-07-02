@@ -13,7 +13,15 @@ public class Vacation {
   private java.sql.Date begin_data;
   private java.sql.Date end_data;
   private String college;
+  private String student_name;
 
+  public String getStudent_name() {
+    return student_name;
+  }
+
+  public void setStudent_name(String student_name) {
+    this.student_name = student_name;
+  }
 
   public String getReason() {
     return reason;
@@ -117,6 +125,7 @@ public class Vacation {
             ", begin_data=" + begin_data +
             ", end_data=" + end_data +
             ", college='" + college + '\'' +
+            ", student_name='" + student_name + '\'' +
             '}';
   }
 }
