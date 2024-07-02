@@ -1,6 +1,6 @@
-package com.project.beans;
+package com.example.back.beans;
 
-public class JsonResult {
+public class JsonResultZDK {
     private String code;
     private Object result;
     private String msg;

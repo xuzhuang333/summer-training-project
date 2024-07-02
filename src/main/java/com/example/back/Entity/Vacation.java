@@ -14,6 +14,15 @@ public class Vacation {
     private String end_data;
     private String college;
     private Integer state;
+    private String student_name;
+
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
 
     public Integer getVacation_id() {
         return vacation_id;
@@ -100,7 +109,7 @@ public class Vacation {
 
     @Override
     public String toString() {
-        return "vacation{" +
+        return "Vacation{" +
                 "vacation_id=" + vacation_id +
                 ", student_id=" + student_id +
                 ", reason='" + reason + '\'' +
@@ -111,6 +120,7 @@ public class Vacation {
                 ", end_data='" + end_data + '\'' +
                 ", college='" + college + '\'' +
                 ", state=" + state +
+                ", student_name='" + student_name + '\'' +
                 '}';
     }
 }

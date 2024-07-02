@@ -1,23 +1,18 @@
 package com.example.back.Controller;
 
 import com.example.back.Entity.Yonghu;
-import com.example.back.beans.CourseTable;
-import com.example.back.beans.IdForPost;
-import com.example.back.beans.JsonResult;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.example.back.beans.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Name;
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -154,6 +149,45 @@ public class Query {
 
     }
 
+    @PostMapping("/coursemsg")
+    @ApiOperation(value = "查询所有课程消息")
+    public JsonResultZDK coursemsg(@RequestBody Course course){
+        JsonResultZDK res = new JsonResultZDK();
+        List<Course> message = null;
+        try {
+            message = jdbc.query("select * from course where course_name=?"
+                    ,new BeanPropertyRowMapper<>(Course.class),course.getCourse_name());
+            res.setCode("200");
+            res.setMsg("成功");
+            res.setResult(message);
+            return res;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode("201");
+            res.setMsg("失败");
+            return res;
+        }
+    }
+
+    @PostMapping("/library") //图书馆
+    @ApiOperation(value = "查询图书馆暑假")
+    public JsonResult library(@RequestBody String bookname){
+        System.out.println("图书查询");
+        JsonResult res = new JsonResult();
+
+        try {
+            Book bk = jdbc.queryForObject("select * from book where name=?",
+                    new BeanPropertyRowMapper<>(Book.class), bookname);
+            res.setCode(200);
+            res.setResult(bk);//用户数据放入结果中
+            return res;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode(201);
+            res.setResult("您搜索的图书不存在");
+            return res;
+        }
+    }
 
 
 

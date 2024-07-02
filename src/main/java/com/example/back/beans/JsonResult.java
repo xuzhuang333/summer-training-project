@@ -33,6 +33,11 @@ public class JsonResult<T> {
     public JsonResult() {
     }
 
+    public JsonResult(T result) {
+        this.code = 200;
+        this.result = result;
+    }
+
     @Override
     public String toString() {
         return "JsonResult{" +

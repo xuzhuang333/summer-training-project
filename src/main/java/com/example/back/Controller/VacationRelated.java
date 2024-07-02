@@ -1,18 +1,19 @@
 package com.example.back.Controller;
 
 import com.example.back.Entity.Vacation;
+import com.example.back.beans.Agreedata;
 import com.example.back.beans.JsonResult;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.example.back.beans.JsonResultZDK;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -69,4 +70,87 @@ public class VacationRelated {
 
     }
 
+    @PostMapping("/agreehome")
+    @ApiOperation(value = "传递批假信息")
+    public JsonResultZDK agreehome(@RequestBody Vacation vacations){
+        JsonResultZDK res = new JsonResultZDK();
+        List<Vacation> vacation =null;
+        try {
+            vacation=jdbc.query("select * from vacation where state = 0 and college =?",new BeanPropertyRowMapper<>(Vacation.class),vacations.getCollege());
+            res.setCode("200");
+            res.setMsg("连接成功");
+            res.setResult(vacation);
+            return res;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode("201");
+            res.setMsg("连接失败");
+            return res;
+        }
+    }
+
+    @PostMapping("/agree")
+    @ApiOperation(value = "批假")
+    public JsonResultZDK agree(@RequestBody Agreedata agreedata){
+        JsonResultZDK res = new JsonResultZDK();
+        try {
+            if(agreedata.getSubmit()==1){
+                jdbc.update("update vacation set state = 1 where vacation_id=?",agreedata.getId());
+                res.setCode("200");
+                res.setMsg("批假成功");
+                return res;
+            }else {
+                jdbc.update("update vacation set state = 3 where vacation_id=?",agreedata.getId());
+                res.setCode("200");
+                res.setMsg("拒绝批假成功");
+                return res;
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode("201");
+            res.setMsg("执行批假失败");
+            return res;
+        }
+    }
+
+    @GetMapping("/destroyinfo/{Student_id}")
+    @ApiOperation(value = "可进行销假的假期展示")
+    public JsonResult destroyinfo(@PathVariable int Student_id){
+        System.out.println("销假信息");
+
+        JsonResult res = new JsonResult();
+        try {
+            List<Vacation> dys=null;
+
+            dys =  jdbc.query("select * from vacation where student_id=? and state !=?",
+                    new BeanPropertyRowMapper<>(Vacation.class),Student_id,2);
+
+            res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("当前无请假信息，无需销假");
+            res.setCode(201);//
+            return res;
+        }
+    }
+    @GetMapping("/destroy/{Vacation_id}")//销假
+    @ApiOperation(value = "销假")
+    public JsonResult destroy(@PathVariable int Vacation_id){
+
+        JsonResult res = new JsonResult();
+        try {
+            jdbc.update("update vacation set state=? where vacation_id=?",2,Vacation_id);
+            res.setCode(200);
+            res.setResult("销假成功");
+            return res;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            log.info("销假失败");
+            res.setCode(201);
+            res.setResult("销假失败");
+            return res;
+        }
+    }
 }
+

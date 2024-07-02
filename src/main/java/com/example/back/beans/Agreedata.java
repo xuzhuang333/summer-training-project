@@ -1,4 +1,4 @@
-package com.project.beans;
+package com.example.back.beans;
 
 public class Agreedata {
     private Integer submit;

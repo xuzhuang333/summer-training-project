@@ -1,4 +1,4 @@
-package com.soft.back.beans;
+package com.example.back.beans;
 
 
 public class Book {
