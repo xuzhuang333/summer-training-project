@@ -1,8 +1,9 @@
-package com.project.controller;
+package com.example.back.Controller;
 
 
-import com.project.beans.JsonResult;
-import com.project.beans.Yonghu;
+import com.example.back.Entity.Yonghu;
+import com.example.back.beans.JsonResultZDK;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,8 +20,9 @@ public class UserController {
     private JdbcTemplate jdbc;
 
     @PostMapping("/update")
-    public JsonResult update(@RequestBody Yonghu yonghu){
-        JsonResult res = new JsonResult();
+    @ApiOperation(value = "修改用户")
+    public JsonResultZDK update(@RequestBody Yonghu yonghu){
+        JsonResultZDK res = new JsonResultZDK();
         try {
             jdbc.update("update yonghu set phone=?,email=?,password=? where id=?"
                     ,yonghu.getPhone(),yonghu.getEmail(),yonghu.getPassword(),yonghu.getId());
