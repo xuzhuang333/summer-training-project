@@ -19,12 +19,22 @@ public class VacationController {
     @Autowired
     private JdbcTemplate jdbc;
 
+<<<<<<< HEAD
     @GetMapping("/agreehome")
     public JsonResult agreehome(){
         JsonResult res = new JsonResult();
         List<Vacation> vacation =null;
         try {
             vacation=jdbc.query("select * from vacation where state = 0",new BeanPropertyRowMapper<>(Vacation.class));
+=======
+    @PostMapping("/agreehome")
+    public JsonResult agreehome(@RequestBody Vacation vacations){
+        JsonResult res = new JsonResult();
+        List<Vacation> vacation =null;
+        try {
+            vacation=jdbc.query("select * from vacation where state = 0 and college = ?"
+                    ,new BeanPropertyRowMapper<>(Vacation.class),vacations.getCollege());
+>>>>>>> bb5bc7e (修改个人信息、查课、批假)
             res.setCode("200");
             res.setMsg("连接成功");
             res.setResult(vacation);
