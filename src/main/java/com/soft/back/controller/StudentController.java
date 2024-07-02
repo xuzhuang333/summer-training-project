@@ -166,7 +166,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/destroyinfo")
+    @GetMapping("/destroyinfo")//可进行销假的假期展示
     public JsonResult destroyinfo(int Student_id){
         System.out.println("销假信息");
         JsonResult res = new JsonResult();
@@ -186,13 +186,13 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/destroy")
-    public JsonResult destroy(@RequestBody Vacation vacation){
+    @PostMapping("/destroy")//销假
+    public JsonResult destroy(int Vacation_id){
         JsonResult res = new JsonResult();//示例化  分配内存
         try {
-            jdbc.update("update from vacation set state=? where vacation_id=?",2,vacation.getVacationId());
+            jdbc.update("update from vacation set state=? where vacation_id=?",2,Vacation_id);
             res.setCode(200);
-            res.setResult("已销假");
+            res.setResult("销假成功");
             return res;
         } catch (DataAccessException e) {
             e.printStackTrace();
