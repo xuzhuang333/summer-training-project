@@ -187,16 +187,18 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/destroy")//销假
-    public JsonResult destroy(@RequestBody int Vacation_id){
+    @GetMapping("/destroy/{Vacation_id}")//销假
+    public JsonResult destroy(@PathVariable int Vacation_id){
+
         JsonResult res = new JsonResult();
         try {
-            jdbc.update("update from vacation set state=? where vacation_id=?",2,Vacation_id);
+            jdbc.update("update vacation set state=? where vacation_id=?",2,Vacation_id);
             res.setCode(200);
             res.setResult("销假成功");
             return res;
         } catch (DataAccessException e) {
             e.printStackTrace();
+            log.info("销假失败");
             res.setCode(201);
             res.setResult("销假失败");
             return res;
