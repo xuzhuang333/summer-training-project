@@ -95,7 +95,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/ChoiceCourse")//选课
+/*    @PostMapping("/ChoiceCourse")//选课
     public JsonResult ChoiceCourse(@RequestBody Courserelation courserelation) {
         System.out.println(courserelation);
         Integer A;
@@ -145,7 +145,7 @@ public class StudentController {
         }
 
         return jsonResult;
-    }
+    }*/
 
     @PostMapping("/library") //图书馆
     public JsonResult doLogin(@RequestBody Book book){
@@ -162,6 +162,42 @@ public class StudentController {
             e.printStackTrace();
             res.setCode(201);
             res.setResult("您搜索的图书不存在");
+            return res;
+        }
+    }
+
+    @GetMapping("/destroyinfo")
+    public JsonResult destroyinfo(int Student_id){
+        System.out.println("销假信息");
+        JsonResult res = new JsonResult();
+        try {
+            List<Vacation> dys=null;
+
+            dys =  jdbc.query("select * from vacation where student_id=? and state =?",
+                    new BeanPropertyRowMapper<>(Vacation.class),Student_id,1);
+
+            res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("当前无请假信息，无需销假");
+            res.setCode(201);//
+            return res;
+        }
+    }
+
+    @PostMapping("/destroy")
+    public JsonResult destroy(@RequestBody Vacation vacation){
+        JsonResult res = new JsonResult();//示例化  分配内存
+        try {
+            jdbc.update("update from vacation set state=? where vacation_id=?",2,vacation.getVacationId());
+            res.setCode(200);
+            res.setResult("已销假");
+            return res;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode(201);
+            res.setResult("销假失败");
             return res;
         }
     }
