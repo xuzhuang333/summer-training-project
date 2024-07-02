@@ -148,13 +148,13 @@ public class StudentController {
     }*/
 
     @PostMapping("/library") //图书馆
-    public JsonResult doLogin(@RequestBody Book book){
+    public JsonResult library(@RequestBody String bookname){
+        System.out.println("图书查询");
         JsonResult res = new JsonResult();
-        System.out.println("接收到的数据:");
-        System.out.println(book);
+
         try {
             Book bk = jdbc.queryForObject("select * from book where name=?",
-                    new BeanPropertyRowMapper<>(Book.class), book.getName());
+                    new BeanPropertyRowMapper<>(Book.class), bookname);
             res.setCode(200);
             res.setResult(bk);//用户数据放入结果中
             return res;
@@ -166,15 +166,16 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/destroyinfo")//可进行销假的假期展示
-    public JsonResult destroyinfo(int Student_id){
+    @GetMapping("/destroyinfo/{Student_id}")//可进行销假的假期展示
+    public JsonResult destroyinfo(@PathVariable int Student_id){
         System.out.println("销假信息");
+
         JsonResult res = new JsonResult();
         try {
             List<Vacation> dys=null;
 
-            dys =  jdbc.query("select * from vacation where student_id=? and state =?",
-                    new BeanPropertyRowMapper<>(Vacation.class),Student_id,1);
+            dys =  jdbc.query("select * from vacation where student_id=? and state !=?",
+                    new BeanPropertyRowMapper<>(Vacation.class),Student_id,2);
 
             res.setResult(dys);
             res.setCode(200);
@@ -187,8 +188,8 @@ public class StudentController {
     }
 
     @PostMapping("/destroy")//销假
-    public JsonResult destroy(int Vacation_id){
-        JsonResult res = new JsonResult();//示例化  分配内存
+    public JsonResult destroy(@RequestBody int Vacation_id){
+        JsonResult res = new JsonResult();
         try {
             jdbc.update("update from vacation set state=? where vacation_id=?",2,Vacation_id);
             res.setCode(200);
