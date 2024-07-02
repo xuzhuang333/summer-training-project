@@ -204,5 +204,26 @@ public class StudentController {
             return res;
         }
     }
+
+    @GetMapping("/life/{ID}")//生活
+    public JsonResult life(@PathVariable int ID){
+        System.out.println("生活");
+
+        JsonResult res = new JsonResult();
+        try {
+            Life dys=null;
+
+            dys =  jdbc.queryForObject("select * from life where id=?",
+                    new BeanPropertyRowMapper<>(Life.class),ID);
+
+            res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("当前无信息");
+            res.setCode(201);//
+            return res;
+        }
+    }
 }
 
