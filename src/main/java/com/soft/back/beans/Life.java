@@ -4,10 +4,10 @@ package com.soft.back.beans;
 public class Life {
 
   private long id;
-  private long money;
-  private long electric;
-  private long water;
-  private long livingCost;
+  private float money;
+  private float electric;
+  private float water;
+  private float livingCost;
 
 
   public long getId() {
@@ -19,39 +19,49 @@ public class Life {
   }
 
 
-  public long getMoney() {
+  public float getMoney() {
     return money;
   }
 
-  public void setMoney(long money) {
+  public void setMoney(float money) {
     this.money = money;
   }
 
 
-  public long getElectric() {
+  public float getElectric() {
     return electric;
   }
 
-  public void setElectric(long electric) {
+  public void setElectric(float electric) {
     this.electric = electric;
   }
 
 
-  public long getWater() {
+  public float getWater() {
     return water;
   }
 
-  public void setWater(long water) {
+  public void setWater(float water) {
     this.water = water;
   }
 
 
-  public long getLivingCost() {
+  public float getLivingCost() {
     return livingCost;
   }
 
-  public void setLivingCost(long livingCost) {
+  public void setLivingCost(float livingCost) {
     this.livingCost = livingCost;
   }
 
+  @Override
+  public String toString() {
+    return "Life{" +
+            "id=" + id +
+            ", money=" + money +
+            ", electric=" + electric +
+            ", water=" + water +
+            ", livingCost=" + livingCost +
+            '}';
+  }
 }
