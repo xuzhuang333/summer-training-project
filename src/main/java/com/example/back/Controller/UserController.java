@@ -2,6 +2,7 @@ package com.example.back.Controller;
 
 
 import com.example.back.Entity.Yonghu;
+import com.example.back.beans.JsonResult;
 import com.example.back.beans.JsonResultZDK;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class UserController {
     public JsonResultZDK update(@RequestBody Yonghu yonghu){
         JsonResultZDK res = new JsonResultZDK();
         try {
-            jdbc.update("update yonghu set phone=?,email=?,password=? where id=?"
-                    ,yonghu.getPhone(),yonghu.getEmail(),yonghu.getPassword(),yonghu.getId());
+            jdbc.update("update yonghu set phone=?,email=?,politics=?,nation = ? where id=?"
+                    ,yonghu.getPhone(),yonghu.getEmail(),yonghu.getPolitics(),yonghu.getNation(),yonghu.getId());
             res.setCode("200");
             res.setMsg("修改成功");
             return res;
@@ -37,4 +38,42 @@ public class UserController {
         }
 
     }
+
+    @PostMapping("/changepassword")
+    @ApiOperation(value = "修改用户密码")
+    public JsonResult<String> ChangePassword(@RequestBody Yonghu yonghu){
+        JsonResult<String> res = new JsonResult<String>();
+        Integer ps = 0;
+
+        try {
+            ps =   jdbc.queryForObject("SELECT password FROM yonghu WHERE id=?",Integer.class,yonghu.getId());
+        } catch (DataAccessException e) {
+            res.setCode(202);
+            res.setResult("未知错误，修改密码失败");
+            e.printStackTrace();
+            return res;
+        }
+        if (yonghu.getOrgin_password().equals(ps)){
+            try {
+                jdbc.update("update yonghu set password = ? where id=?"
+                        ,yonghu.getPassword(),yonghu.getId());
+                res.setCode(200);
+                res.setResult("修改密码成功");
+                return res;
+            } catch (DataAccessException e) {
+                res.setCode(202);
+                res.setResult("未知错误，修改密码失败");
+                e.printStackTrace();
+                return res;
+            }
+        }
+        else{
+            res.setCode(201);
+            res.setResult("修改密码失败，原密码不正确");
+            return res;
+        }
+
+    }
+
+
 }

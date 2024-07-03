@@ -25,13 +25,52 @@ public class Yonghu {
     private String dormitory_number;
     @ApiModelProperty(value = "志愿时长")
     private int volunteer;
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "修改后的密码")
     private String password;
     @ApiModelProperty(value = "类别：1为老师，0为学生")
     private int leibie;
     @ApiModelProperty(value = "类别：1为激活，0为未激活")
     private int activate;
+    @ApiModelProperty(value = "民族")
+    private String nation;
+    @ApiModelProperty(value = "政治面貌:0群众，1团员，2党员")
+    private String politics;
+    @ApiModelProperty(value = "家乡")
+    private String home;
+    @ApiModelProperty(value = "原密码")
+    private Integer orgin_password;
 
+    public Integer getOrgin_password() {
+        return orgin_password;
+    }
+
+    public void setOrgin_password(Integer orgin_password) {
+        this.orgin_password = orgin_password;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getPolitics() {
+        return politics;
+    }
+
+    public void setPolitics(String politics) {
+        this.politics = politics;
+    }
+
+    public String getHome() {
+        return home;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
+    }
 
     public int getActivate() {
         return activate;
@@ -156,6 +195,10 @@ public class Yonghu {
                 ", password='" + password + '\'' +
                 ", leibie=" + leibie +
                 ", activate=" + activate +
+                ", nation='" + nation + '\'' +
+                ", politics='" + politics + '\'' +
+                ", home='" + home + '\'' +
+                ", orgin_password=" + orgin_password +
                 '}';
     }
 }

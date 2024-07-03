@@ -15,8 +15,17 @@ public class Vacation {
     private String end_data;
     private String college;
     private String student_name;
+    private Integer notification;
     @ApiModelProperty(value = "state 0：请假未审批，1：审批通过未销假，2：已销假")
     private Integer state;
+
+    public Integer getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Integer notification) {
+        this.notification = notification;
+    }
 
     public Integer getVacation_id() {
         return vacation_id;
@@ -122,6 +131,7 @@ public class Vacation {
                 ", end_data='" + end_data + '\'' +
                 ", college='" + college + '\'' +
                 ", student_name='" + student_name + '\'' +
+                ", notification=" + notification +
                 ", state=" + state +
                 '}';
     }

@@ -72,7 +72,6 @@ public class VacationRelated {
 
 
     @PostMapping("/agreehome")
-    @ApiOperation(value = "传递批假信息")
     public JsonResultZDK agreehome(@RequestBody Vacation vacations){
         JsonResultZDK res = new JsonResultZDK();
         List<Vacation> vacation =null;
@@ -91,7 +90,6 @@ public class VacationRelated {
     }
 
     @PostMapping("/agree")
-    @ApiOperation(value = "批假")
     public JsonResultZDK agree(@RequestBody Agreedata agreedata){
         JsonResultZDK res = new JsonResultZDK();
         try {
