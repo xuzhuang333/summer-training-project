@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -224,6 +225,121 @@ public class StudentController {
             res.setCode(201);//
             return res;
         }
+    }
+
+    @GetMapping("/activatequery/{College}")
+    public JsonResult activatequery(@PathVariable String College ){
+        System.out.println("激活查看");
+
+        JsonResult res = new JsonResult();
+        try {
+            ArrayList<Integer>dys = null;
+            Integer dys1;
+            Integer dys2;
+            Integer dys3;
+
+            dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
+                    new BeanPropertyRowMapper<>(Integer.class),College);
+            dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
+                    new BeanPropertyRowMapper<>(Integer.class),College,1);
+            dys3 = dys1-dys2;
+
+            dys.add(dys1);
+            dys.add(dys2);
+            dys.add(dys3);
+            res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("查询失败");
+            res.setCode(201);//
+            return res;
+        }
+    }
+
+    @GetMapping("/dataAnalysis/{College}")
+    public JsonResult dataAnalysis(@PathVariable String College ){
+        System.out.println("数据分析");
+
+        JsonResult res = new JsonResult();
+        try {
+            ArrayList<Integer>dys = null;
+            Integer dys1;
+            Integer dys2;
+            Integer dys3;
+
+            dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
+                    new BeanPropertyRowMapper<>(Integer.class),College);
+            dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
+                    new BeanPropertyRowMapper<>(Integer.class),College,1);
+            dys3 = dys1-dys2;
+
+            dys.add(dys1);
+            dys.add(dys2);
+            dys.add(dys3);
+            res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("查询失败");
+            res.setCode(201);//
+            return res;
+        }
+    }
+
+    @GetMapping("/sex")
+    public JsonResult<List<Sexdaping>> sex(){
+        JsonResult res = new JsonResult();
+        //返回一个包含两个元素的数组（第一个元素代表男生，第二个元素代表女生），数组中的元素是Sexdaping类
+        ArrayList<Sexdaping>sex = new ArrayList<>();
+
+        int num1;
+        num1 = jdbc.queryForObject("select count(*) from yonghu where gender=? ",
+                new BeanPropertyRowMapper<>(Integer.class),'男');
+        Sexdaping sexdaping1 = new Sexdaping();
+        sexdaping1.setValue(num1);
+        sexdaping1.setName("男");
+
+        int num2;
+        num2 = jdbc.queryForObject("select count(*) from yonghu where gender=? ",
+                new BeanPropertyRowMapper<>(Integer.class),'女');
+        Sexdaping sexdaping2 = new Sexdaping();
+        sexdaping2.setValue(num2);
+        sexdaping2.setName("女");
+
+        sex.add(sexdaping1);
+        sex.add(sexdaping2);
+
+        res.setResult(sex);
+        return res;
+    }
+
+    @GetMapping("/baodao")
+    public JsonResult<List<Baodaodaping>> baodao(){
+        JsonResult res = new JsonResult();
+        //需要返回一个包含两个元素的数组（第一个元素代表已报道，第二个元素代表未报到），数组中的元素是Baodaodaping类
+        ArrayList<Baodaodaping>baodao = new ArrayList<>();
+
+        int num1;
+        num1 = jdbc.queryForObject("select count(*) from yonghu where activate=? ",
+                new BeanPropertyRowMapper<>(Integer.class),1);
+        Baodaodaping baodaodaping1 = new Baodaodaping();
+        baodaodaping1.setValue(num1);
+        baodaodaping1.setName("已报到");
+
+        int num2;
+        num2 = jdbc.queryForObject("select count(*) from yonghu where activate=? ",
+                new BeanPropertyRowMapper<>(Integer.class),0);
+        Baodaodaping baodaodaping2 = new Baodaodaping();
+        baodaodaping2.setValue(num2);
+        baodaodaping2.setName("未报到");
+
+        baodao.add(baodaodaping1);
+        baodao.add(baodaodaping2);
+
+        res.setResult(baodao);
+        return res;
+
     }
 }
 
