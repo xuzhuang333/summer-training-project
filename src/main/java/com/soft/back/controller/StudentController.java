@@ -149,8 +149,9 @@ public class StudentController {
     }*/
 
     @PostMapping("/library") //图书馆
-    public JsonResult library(@RequestBody String bookname){
+    public JsonResult library(String bookname){
         System.out.println("图书查询");
+        System.out.println(bookname);
         JsonResult res = new JsonResult();
 
         try {
@@ -212,7 +213,7 @@ public class StudentController {
 
         JsonResult res = new JsonResult();
         try {
-            Life dys=null;
+            Life dys=new Life();
 
             dys =  jdbc.queryForObject("select * from life where id=?",
                     new BeanPropertyRowMapper<>(Life.class),ID);
@@ -230,18 +231,19 @@ public class StudentController {
     @GetMapping("/activatequery/{College}")
     public JsonResult activatequery(@PathVariable String College ){
         System.out.println("激活查看");
+        System.out.println(College);
 
         JsonResult res = new JsonResult();
         try {
-            ArrayList<Integer>dys = null;
+            ArrayList<Integer>dys = new ArrayList<>();
             Integer dys1;
             Integer dys2;
             Integer dys3;
 
             dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
-                    new BeanPropertyRowMapper<>(Integer.class),College);
+                    Integer.class,College);
             dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
-                    new BeanPropertyRowMapper<>(Integer.class),College,1);
+                    Integer.class,College,1);
             dys3 = dys1-dys2;
 
             dys.add(dys1);
@@ -257,21 +259,21 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/dataAnalysis/{College}")
+    @GetMapping("/dataAnalysis/{College}")//学生数据分析
     public JsonResult dataAnalysis(@PathVariable String College ){
         System.out.println("数据分析");
 
         JsonResult res = new JsonResult();
         try {
-            ArrayList<Integer>dys = null;
+            ArrayList<Integer>dys = new ArrayList<>();
             Integer dys1;
             Integer dys2;
             Integer dys3;
 
             dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
-                    new BeanPropertyRowMapper<>(Integer.class),College);
+                    Integer.class,College);
             dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
-                    new BeanPropertyRowMapper<>(Integer.class),College,1);
+                    Integer.class,College,1);
             dys3 = dys1-dys2;
 
             dys.add(dys1);
@@ -295,14 +297,14 @@ public class StudentController {
 
         int num1;
         num1 = jdbc.queryForObject("select count(*) from yonghu where gender=? ",
-                new BeanPropertyRowMapper<>(Integer.class),'男');
+                Integer.class,"男");
         Sexdaping sexdaping1 = new Sexdaping();
         sexdaping1.setValue(num1);
         sexdaping1.setName("男");
 
         int num2;
         num2 = jdbc.queryForObject("select count(*) from yonghu where gender=? ",
-                new BeanPropertyRowMapper<>(Integer.class),'女');
+                Integer.class,"女");
         Sexdaping sexdaping2 = new Sexdaping();
         sexdaping2.setValue(num2);
         sexdaping2.setName("女");
@@ -321,15 +323,15 @@ public class StudentController {
         ArrayList<Baodaodaping>baodao = new ArrayList<>();
 
         int num1;
-        num1 = jdbc.queryForObject("select count(*) from yonghu where activate=? ",
-                new BeanPropertyRowMapper<>(Integer.class),1);
+        num1 = jdbc.queryForObject("select count(*) from yonghu where activate=? and leibie=?",
+                Integer.class,1,0);
         Baodaodaping baodaodaping1 = new Baodaodaping();
         baodaodaping1.setValue(num1);
         baodaodaping1.setName("已报到");
 
         int num2;
-        num2 = jdbc.queryForObject("select count(*) from yonghu where activate=? ",
-                new BeanPropertyRowMapper<>(Integer.class),0);
+        num2 = jdbc.queryForObject("select count(*) from yonghu where activate=? and leibie=?",
+                Integer.class,0,0);
         Baodaodaping baodaodaping2 = new Baodaodaping();
         baodaodaping2.setValue(num2);
         baodaodaping2.setName("未报到");
@@ -338,6 +340,112 @@ public class StudentController {
         baodao.add(baodaodaping2);
 
         res.setResult(baodao);
+        return res;
+
+    }
+
+    @GetMapping("/leibie")
+    public JsonResult<List<Leibiedaping>> leibie(){
+        JsonResult res = new JsonResult();
+        //需要返回一个包含两个元素的数组（第一个元素代表团员，第二个元素代表群众），数组中的元素是Leibiedaping类
+        ArrayList<Leibiedaping>leibie = new ArrayList<>();
+
+        int num1;
+        num1 = jdbc.queryForObject("select count(*) from yonghu where politics=? ",
+                Integer.class,1);
+        Leibiedaping leibiedaping1=new Leibiedaping();
+        leibiedaping1.setValue(num1);
+        leibiedaping1.setName("团员");
+
+        int num2;
+        num2 = jdbc.queryForObject("select count(*) from yonghu where politics=? ",
+                Integer.class,0);
+        Leibiedaping leibiedaping2=new Leibiedaping();
+        leibiedaping2.setValue(num2);
+        leibiedaping2.setName("群众");
+
+        leibie.add(leibiedaping1);
+        leibie.add(leibiedaping2);
+
+        res.setResult(leibie);
+        return res;
+
+    }
+
+    @GetMapping("/minzu")
+    public JsonResult<List<Minzudaping>> minzu(){
+        JsonResult res = new JsonResult();
+        //需要返回一个包含八个元素的数组（代表不同民族），数组中的元素是Minzudaping类
+        ArrayList<Minzudaping>minzu = new ArrayList<>();
+
+        int num1;
+        num1 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"汉族",0);
+        Minzudaping minzudaping1=new Minzudaping();
+        minzudaping1.setValue(num1);
+        minzudaping1.setName("汉族");
+
+        int num2;
+        num2 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"壮族",0);
+        Minzudaping minzudaping2=new Minzudaping();
+        minzudaping2.setValue(num2);
+        minzudaping2.setName("壮族");
+
+        int num3;
+        num3 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"维吾尔族",0);
+        Minzudaping minzudaping3=new Minzudaping();
+        minzudaping3.setValue(num3);
+        minzudaping3.setName("维吾尔族");
+
+        int num4;
+        num4 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"回族",0);
+        Minzudaping minzudaping4=new Minzudaping();
+        minzudaping4.setValue(num4);
+        minzudaping4.setName("回族");
+
+        int num5;
+        num5 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"苗族",0);
+        Minzudaping minzudaping5=new Minzudaping();
+        minzudaping5.setValue(num5);
+        minzudaping5.setName("苗族");
+
+        int num6;
+        num6 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"满族",0);
+        Minzudaping minzudaping6=new Minzudaping();
+        minzudaping6.setValue(num6);
+        minzudaping6.setName("满族");
+
+        int num7;
+        num7 = jdbc.queryForObject("select count(*) from yonghu where nation=? and leibie=?",
+                Integer.class,"土家族",0);
+        Minzudaping minzudaping7=new Minzudaping();
+        minzudaping7.setValue(num7);
+        minzudaping7.setName("土家族");
+
+        int num;
+        int num8;
+        num = jdbc.queryForObject("select count(*) from yonghu where leibie=?",
+                Integer.class,0);
+        num8=num-num1-num2-num3-num4-num5-num6-num7;
+        Minzudaping minzudaping8=new Minzudaping();
+        minzudaping8.setValue(num8);
+        minzudaping8.setName("其他");
+
+        minzu.add(minzudaping1);
+        minzu.add(minzudaping2);
+        minzu.add(minzudaping3);
+        minzu.add(minzudaping4);
+        minzu.add(minzudaping5);
+        minzu.add(minzudaping6);
+        minzu.add(minzudaping7);
+        minzu.add(minzudaping8);
+
+        res.setResult(minzu);
         return res;
 
     }
