@@ -40,7 +40,7 @@ public class VacationRelated {
         if (jud != null) {
             if (jud == 0 ){
                 try {
-                    jdbc.update("INSERT INTO vacation (reason,  state, student_id, type, parent, parent_phone, begin_data, end_data, college) VALUES (?,  ?, ?, ?, ?, ?, ?, ?, ?)",vacation.getReason(),vacation.getState(),vacation.getStudent_id(),vacation.getType(),vacation.getParent(),vacation.getParent_phone(),vacation.getBegin_data(),vacation.getEnd_data(),vacation.getCollege());
+                    jdbc.update("INSERT INTO vacation (reason,  state, student_id, type, parent, parent_phone, begin_data, end_data, college,student_name) VALUES (?,  ?, ?, ?, ?, ?, ?, ?, ?,?)",vacation.getReason(),vacation.getState(),vacation.getStudent_id(),vacation.getType(),vacation.getParent(),vacation.getParent_phone(),vacation.getBegin_data(),vacation.getEnd_data(),vacation.getCollege(),vacation.getStudent_name());
                     result.setResult("请假成功，请等到辅导员审批");
                     result.setCode(200);
                     log.info("请假成功：{}",vacation);

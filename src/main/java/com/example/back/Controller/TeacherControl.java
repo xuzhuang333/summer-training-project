@@ -2,9 +2,7 @@ package com.example.back.Controller;
 
 import com.example.back.beans.JsonResult;
 import com.example.back.beans.NoticeForPost;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -68,7 +68,7 @@ public class SelectingCourses {
         log.info("传入的课程信息：{}",courseForPost);
         ArrayList<SecondSelectingCourse> arrayList;
         try {
-            arrayList = (ArrayList<SecondSelectingCourse>) jdbc.query("SELECT c.course_name, c.course_id, c.course_num, c.course_teacher, c.course_room, c.max_capacity, c.now_capacity, CASE WHEN cr.student_id = ? AND c.course_id = cr.course_id THEN 3 ELSE c.state END AS state FROM course c LEFT JOIN courserelation cr ON c.course_name = cr.course_name WHERE c.course_num = ? AND c.course_name = ?;",new BeanPropertyRowMapper<>(SecondSelectingCourse.class),courseForPost.getStudent_id(),courseForPost.getCourse_num(),courseForPost.getCourse_name());
+            arrayList = (ArrayList<SecondSelectingCourse>) jdbc.query("SELECT cs.course_name, cs.course_id, cs.course_num, cs.course_teacher, cs.course_room, cs.max_capacity, cs.now_capacity, CASE WHEN has_state_3.count_state_3 > 0 AND cs.state != 3 THEN 2 ELSE cs.state END AS state FROM ( SELECT c.course_name, c.course_id, c.course_num, c.course_teacher, c.course_room, c.max_capacity, c.now_capacity, CASE WHEN cr.student_id = ? AND c.course_id = cr.course_id THEN 3 ELSE c.state END AS state FROM course c LEFT JOIN courserelation cr ON c.course_name = cr.course_name AND cr.student_id = ? WHERE c.course_num = ? AND c.course_name = ? ) AS cs LEFT JOIN ( SELECT COUNT(*) AS count_state_3 FROM ( SELECT c.course_name, c.course_id, c.course_num, c.course_teacher, c.course_room, c.max_capacity, c.now_capacity, CASE WHEN cr.student_id = ? AND c.course_id = cr.course_id THEN 3 ELSE c.state END AS state FROM course c LEFT JOIN courserelation cr ON c.course_name = cr.course_name WHERE c.course_num = ? AND c.course_name = ? ) AS cs_inner WHERE cs_inner.state = 3 ) AS has_state_3 ON 1=1;",new BeanPropertyRowMapper<>(SecondSelectingCourse.class),courseForPost.getStudent_id(),courseForPost.getStudent_id(),courseForPost.getCourse_num(),courseForPost.getCourse_name(),courseForPost.getStudent_id(),courseForPost.getCourse_num(),courseForPost.getCourse_name());
             log.info("获取到该课程下所有老师的课：{}",arrayList);
             result.setResult(arrayList);
             result.setCode(200);
@@ -129,8 +129,6 @@ public class SelectingCourses {
             result.setResult("该课程已满");
             return result;
         }
-
-
     }
 
 }

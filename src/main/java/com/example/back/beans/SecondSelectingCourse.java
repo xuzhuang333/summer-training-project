@@ -10,7 +10,7 @@ public class SecondSelectingCourse {
     private String course_room;
     private int max_capacity;
     private int now_capacity;
-    private int state;
+    private int state;//0:可以选，1：选满，2：选过了，3：已选了
 
     public String getCourse_name() {
         return course_name;
