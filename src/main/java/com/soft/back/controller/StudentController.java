@@ -79,7 +79,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/courses")
+    /*@GetMapping("/courses")
     public JsonResult courses(){
         System.out.println("课程信息");
         JsonResult res = new JsonResult();
@@ -94,7 +94,7 @@ public class StudentController {
             res.setCode(201);//代码  出错
             return res;
         }
-    }
+    }*/
 
 /*    @PostMapping("/ChoiceCourse")//选课
     public JsonResult ChoiceCourse(@RequestBody Courserelation courserelation) {
