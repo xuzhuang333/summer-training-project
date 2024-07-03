@@ -1,6 +1,7 @@
 package com.example.back.Entity;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "假条的实体类")
 public class Vacation {
@@ -13,16 +14,9 @@ public class Vacation {
     private String begin_data;
     private String end_data;
     private String college;
-    private Integer state;
     private String student_name;
-
-    public String getStudent_name() {
-        return student_name;
-    }
-
-    public void setStudent_name(String student_name) {
-        this.student_name = student_name;
-    }
+    @ApiModelProperty(value = "state 0：请假未审批，1：审批通过未销假，2：已销假")
+    private Integer state;
 
     public Integer getVacation_id() {
         return vacation_id;
@@ -107,6 +101,14 @@ public class Vacation {
     public Vacation() {
     }
 
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
+
     @Override
     public String toString() {
         return "Vacation{" +
@@ -119,8 +121,8 @@ public class Vacation {
                 ", begin_data='" + begin_data + '\'' +
                 ", end_data='" + end_data + '\'' +
                 ", college='" + college + '\'' +
-                ", state=" + state +
                 ", student_name='" + student_name + '\'' +
+                ", state=" + state +
                 '}';
     }
 }

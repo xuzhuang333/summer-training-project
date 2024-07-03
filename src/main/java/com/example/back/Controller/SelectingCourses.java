@@ -26,7 +26,7 @@ public class SelectingCourses {
 
     @PostMapping("/selectingcourses1")
     @ApiOperation(value = "写数据给第一页选课界面")
-        public JsonResult<ArrayList<FirstSelectingCourse>> selectingcourses1(@RequestBody IdForPost id){
+    public JsonResult<ArrayList<FirstSelectingCourse>> selectingcourses1(@RequestBody IdForPost id){
         JsonResult<ArrayList<FirstSelectingCourse>> result = new JsonResult<>();
         String student_college;
         String all = "ALL";
@@ -68,7 +68,7 @@ public class SelectingCourses {
         log.info("传入的课程信息：{}",courseForPost);
         ArrayList<SecondSelectingCourse> arrayList;
         try {
-            arrayList = (ArrayList<SecondSelectingCourse>) jdbc.query("SELECT c.course_name, c.course_id, c.course_num, c.course_teacher, c.course_room, c.max_capacity, c.now_capacity, CASE WHEN cr.student_id = ? AND c.course_id = cr.course_id THEN 3 ELSE c.state END AS state FROM course c LEFT JOIN courserelation cr ON c.course_name = cr.course_name WHERE c.course_num = ? AND c.course_name = ?;",new BeanPropertyRowMapper<>(SecondSelectingCourse.class),courseForPost.getStudent_id(),courseForPost.getCourse_num(),courseForPost.getCourse_name());
+            arrayList = (ArrayList<SecondSelectingCourse>) jdbc.query("SELECT cs.course_name, cs.course_id, cs.course_num, cs.course_teacher, cs.course_room, cs.max_capacity, cs.now_capacity, CASE WHEN has_state_3.count_state_3 > 0 AND cs.state != 3 THEN 2 ELSE cs.state END AS state FROM ( SELECT c.course_name, c.course_id, c.course_num, c.course_teacher, c.course_room, c.max_capacity, c.now_capacity, CASE WHEN cr.student_id = ? AND c.course_id = cr.course_id THEN 3 ELSE c.state END AS state FROM course c LEFT JOIN courserelation cr ON c.course_name = cr.course_name AND cr.student_id = ? WHERE c.course_num = ? AND c.course_name = ? ) AS cs LEFT JOIN ( SELECT COUNT(*) AS count_state_3 FROM ( SELECT c.course_name, c.course_id, c.course_num, c.course_teacher, c.course_room, c.max_capacity, c.now_capacity, CASE WHEN cr.student_id = ? AND c.course_id = cr.course_id THEN 3 ELSE c.state END AS state FROM course c LEFT JOIN courserelation cr ON c.course_name = cr.course_name WHERE c.course_num = ? AND c.course_name = ? ) AS cs_inner WHERE cs_inner.state = 3 ) AS has_state_3 ON 1=1;",new BeanPropertyRowMapper<>(SecondSelectingCourse.class),courseForPost.getStudent_id(),courseForPost.getStudent_id(),courseForPost.getCourse_num(),courseForPost.getCourse_name(),courseForPost.getStudent_id(),courseForPost.getCourse_num(),courseForPost.getCourse_name());
             log.info("获取到该课程下所有老师的课：{}",arrayList);
             result.setResult(arrayList);
             result.setCode(200);
@@ -129,8 +129,58 @@ public class SelectingCourses {
             result.setResult("该课程已满");
             return result;
         }
-
-
     }
+    @PostMapping("/showCourses")
+    @ApiOperation(value = "退课信息展示端口")
+    public JsonResult<ArrayList<Course>> showCourses(@RequestBody IdForPost id){
+        JsonResult<ArrayList<Course>> result = new JsonResult<>();
+        //获取选过的所有的课程信息
+        log.info("传入的学生id：{}",id);
+        ArrayList<Course> arrayList;
+        try {
+            arrayList = (ArrayList<Course>) jdbc.query("SELECT course_name, course_num, course_teacher, course_id FROM course WHERE course_id IN ( SELECT course_id FROM courserelation WHERE student_id = ? )",new BeanPropertyRowMapper<>(Course.class),id.getId());
+            log.info("获取到该学生已选的课：{}",arrayList);
+            result.setResult(arrayList);
+            result.setCode(200);
+        } catch (DataAccessException e) {
+            result.setCode(201);
+            e.printStackTrace();
+            log.info("获取到已选的课失败");
+        }
+        return result;
+    }
+
+    @PostMapping("/dropCourses")
+    @ApiOperation(value = "退课端口")
+    public JsonResult<String> dropCourses(@RequestBody CourseForDrop courseForDrop){
+        JsonResult<String> result = new JsonResult<>();
+        //获取选过的所有的课程信息
+        log.info("传入的退课数据：{}",courseForDrop);
+        try {
+            jdbc.update("UPDATE course SET now_capacity = now_capacity - 1 WHERE course_id = ?",courseForDrop.getCourse_id());
+            log.info("更新course表now_capacity成功");
+            try {
+                jdbc.update("DELETE FROM courserelation WHERE course_id = ? AND student_id = ?",courseForDrop.getCourse_id(),courseForDrop.getStudent_id());
+                result.setCode(200);
+                result.setResult("退课成功");
+                log.info("从cr表删除成功");
+                return(result);
+            } catch (DataAccessException e) {
+                result.setCode(201);
+                result.setResult("退课失败");
+                log.error("从cr表删除失败");
+                e.printStackTrace();
+                return result;
+            }
+        } catch (DataAccessException e) {
+            result.setCode(201);
+            result.setResult("退课失败");
+            log.error("更新course表now_capacity失败");
+            e.printStackTrace();
+            return(result);
+        }
+    }
+
+
 
 }

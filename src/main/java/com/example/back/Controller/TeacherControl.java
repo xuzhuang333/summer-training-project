@@ -2,18 +2,15 @@ package com.example.back.Controller;
 
 import com.example.back.beans.JsonResult;
 import com.example.back.beans.NoticeForPost;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @CrossOrigin
@@ -43,5 +40,38 @@ public class TeacherControl {
         return result;
 
     }
+
+    @GetMapping("/activatequery/{College}")
+    @ApiOperation(value = "老师查看激活")
+    public JsonResult activatequery(@PathVariable String College ){
+        System.out.println("激活查看");
+        System.out.println(College);
+
+        JsonResult res = new JsonResult();
+        try {
+            ArrayList<Integer> dys = new ArrayList<>();
+            Integer dys1;
+            Integer dys2;
+            Integer dys3;
+
+            dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
+                    Integer.class,College);
+            dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
+                    Integer.class,College,1);
+            dys3 = dys1-dys2;
+
+            dys.add(dys1);
+            dys.add(dys2);
+            dys.add(dys3);
+            res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("查询失败");
+            res.setCode(201);//
+            return res;
+        }
+    }
+
 
 }

@@ -1,7 +1,6 @@
 package com.example.back.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 
 //定义用来查询个人信息使用的用户数据，查询需要所有的信息！
 @ApiModel(value = "学生用户信息的实体类")
