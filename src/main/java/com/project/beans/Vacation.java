@@ -8,13 +8,8 @@ public class Vacation {
   private String reason;
   private long vacation_id;
   private long state;
-<<<<<<< HEAD
-  private java.sql.Timestamp begin_data;
-  private java.sql.Timestamp end_data;
-=======
   private String begin_data;
   private String end_data;
->>>>>>> bb5bc7e (修改个人信息、查课、批假)
   private long student_id;
   private String type;
   private String parent;
@@ -47,21 +42,6 @@ public class Vacation {
     this.state = state;
   }
 
-<<<<<<< HEAD
-  public Timestamp getBegin_data() {
-    return begin_data;
-  }
-
-  public void setBegin_data(Timestamp begin_data) {
-    this.begin_data = begin_data;
-  }
-
-  public Timestamp getEnd_data() {
-    return end_data;
-  }
-
-  public void setEnd_data(Timestamp end_data) {
-=======
   public String getBegin_data() {
     return begin_data;
   }
@@ -75,7 +55,6 @@ public class Vacation {
   }
 
   public void setEnd_data(String end_data) {
->>>>>>> bb5bc7e (修改个人信息、查课、批假)
     this.end_data = end_data;
   }
 
@@ -141,13 +120,8 @@ public class Vacation {
             "reason='" + reason + '\'' +
             ", vacation_id=" + vacation_id +
             ", state=" + state +
-<<<<<<< HEAD
-            ", begin_data=" + begin_data +
-            ", end_data=" + end_data +
-=======
             ", begin_data='" + begin_data + '\'' +
             ", end_data='" + end_data + '\'' +
->>>>>>> bb5bc7e (修改个人信息、查课、批假)
             ", student_id=" + student_id +
             ", type='" + type + '\'' +
             ", parent='" + parent + '\'' +

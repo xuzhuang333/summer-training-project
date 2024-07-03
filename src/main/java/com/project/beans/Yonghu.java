@@ -10,11 +10,15 @@ public class Yonghu {
   private String phone;
   private String email;
   private String college;
-  private String majorClass;
-  private String dormitoryNumber;
+  private String major_class;
+  private String dormitory_number;
   private String password;
   private long leibie;
-
+  private Integer activate;
+  private Integer volunteer;
+  private Integer max_credit;
+  private Integer dormitory_state;
+  private String home;
 
   public long getId() {
     return id;
@@ -24,7 +28,6 @@ public class Yonghu {
     this.id = id;
   }
 
-
   public String getName() {
     return name;
   }
@@ -32,7 +35,6 @@ public class Yonghu {
   public void setName(String name) {
     this.name = name;
   }
-
 
   public long getAge() {
     return age;
@@ -42,7 +44,6 @@ public class Yonghu {
     this.age = age;
   }
 
-
   public String getGender() {
     return gender;
   }
@@ -50,7 +51,6 @@ public class Yonghu {
   public void setGender(String gender) {
     this.gender = gender;
   }
-
 
   public String getPhone() {
     return phone;
@@ -60,7 +60,6 @@ public class Yonghu {
     this.phone = phone;
   }
 
-
   public String getEmail() {
     return email;
   }
@@ -68,7 +67,6 @@ public class Yonghu {
   public void setEmail(String email) {
     this.email = email;
   }
-
 
   public String getCollege() {
     return college;
@@ -78,24 +76,21 @@ public class Yonghu {
     this.college = college;
   }
 
-
-  public String getMajorClass() {
-    return majorClass;
+  public String getMajor_class() {
+    return major_class;
   }
 
-  public void setMajorClass(String majorClass) {
-    this.majorClass = majorClass;
+  public void setMajor_class(String major_class) {
+    this.major_class = major_class;
   }
 
-
-  public String getDormitoryNumber() {
-    return dormitoryNumber;
+  public String getDormitory_number() {
+    return dormitory_number;
   }
 
-  public void setDormitoryNumber(String dormitoryNumber) {
-    this.dormitoryNumber = dormitoryNumber;
+  public void setDormitory_number(String dormitory_number) {
+    this.dormitory_number = dormitory_number;
   }
-
 
   public String getPassword() {
     return password;
@@ -105,7 +100,6 @@ public class Yonghu {
     this.password = password;
   }
 
-
   public long getLeibie() {
     return leibie;
   }
@@ -114,4 +108,65 @@ public class Yonghu {
     this.leibie = leibie;
   }
 
+  public Integer getActivate() {
+    return activate;
+  }
+
+  public void setActivate(Integer activate) {
+    this.activate = activate;
+  }
+
+  public Integer getVolunteer() {
+    return volunteer;
+  }
+
+  public void setVolunteer(Integer volunteer) {
+    this.volunteer = volunteer;
+  }
+
+  public Integer getMax_credit() {
+    return max_credit;
+  }
+
+  public void setMax_credit(Integer max_credit) {
+    this.max_credit = max_credit;
+  }
+
+  public Integer getDormitory_state() {
+    return dormitory_state;
+  }
+
+  public void setDormitory_state(Integer dormitory_state) {
+    this.dormitory_state = dormitory_state;
+  }
+
+  public String getHome() {
+    return home;
+  }
+
+  public void setHome(String home) {
+    this.home = home;
+  }
+
+  @Override
+  public String toString() {
+    return "Yonghu{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", age=" + age +
+            ", gender='" + gender + '\'' +
+            ", phone='" + phone + '\'' +
+            ", email='" + email + '\'' +
+            ", college='" + college + '\'' +
+            ", major_class='" + major_class + '\'' +
+            ", dormitory_number='" + dormitory_number + '\'' +
+            ", password='" + password + '\'' +
+            ", leibie=" + leibie +
+            ", activate=" + activate +
+            ", volunteer=" + volunteer +
+            ", max_credit=" + max_credit +
+            ", dormitory_state=" + dormitory_state +
+            ", home='" + home + '\'' +
+            '}';
+  }
 }
