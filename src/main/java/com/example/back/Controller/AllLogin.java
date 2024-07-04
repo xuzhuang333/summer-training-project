@@ -64,15 +64,23 @@ public class AllLogin {
                 try {
                     yonghu.setRegisterTimeToLocalNow();
                     log.info("注册时间:{}",yonghu.getRegister_time());
-                    jdbc.update("update yonghu set activate=? , email=?,register_time=? where id=? AND code = ?",
+                    int a = jdbc.update("update yonghu set activate=? , email=?,register_time=? where id=? AND code = ?",
                             1,yonghu.getEmail(),yonghu.getRegister_time(),yonghu.getId(),yonghu.getCode());
-                    //返回更新后的用户信息
-                    jdbc.update("update yonghu set code=? where id=?",
-                            null,yonghu.getId());
-                    user = jdbc.queryForObject("select * from yonghu where id = ?",
-                            new BeanPropertyRowMapper<>(Yonghu.class), yonghu.getId());
-
-                    return new JsonResult(user);
+                    if (a !=0){
+                        //返回更新后的用户信息
+                        jdbc.update("update yonghu set code=? where id=?",
+                                null,yonghu.getId());
+                        JsonResult<String> result=new JsonResult<>();
+                        result.setCode(200);
+                        result.setResult("激活成功");
+                        return result;
+                    }
+                    else{
+                        JsonResult<String> result=new JsonResult<>();
+                        result.setCode(201);
+                        result.setResult("激活失败");
+                        return result;
+                    }
                 } catch (DataAccessException e) {
                     e.printStackTrace();
                     JsonResult<String> result=new JsonResult<>();

@@ -5,6 +5,8 @@ import com.example.back.Entity.Yonghu;
 import com.example.back.beans.JsonResult;
 import com.example.back.beans.JsonResultZDK;
 import io.swagger.annotations.ApiOperation;
+import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -55,18 +58,11 @@ public class UserController {
         }
         if (yonghu.getOrgin_password().equals(ps)){
             try {
-                int a = jdbc.update("update yonghu set password = ? where id=? AND code = ?"
-                        ,yonghu.getPassword(),yonghu.getId(),yonghu.getCode());
-                if(a == 0){
-                    res.setCode(203);
-                    res.setResult("验证码错误，修改密码失败");
-                    return res;
-                }
-                else{jdbc.update("update yonghu set code=? where id=?", null,yonghu.getId());
-                    res.setCode(200);
-                    res.setResult("修改密码成功");
-                    return res;}
-
+                jdbc.update("update yonghu set password = ? where id=?"
+                        ,yonghu.getPassword(),yonghu.getId());
+                res.setCode(200);
+                res.setResult("修改密码成功");
+                return res;
             } catch (DataAccessException e) {
                 res.setCode(202);
                 res.setResult("未知错误，修改密码失败");
@@ -80,6 +76,43 @@ public class UserController {
             return res;
         }
 
+    }
+
+    @PostMapping("/resetpassword")
+    @ApiOperation(value = "忘记密码：重置用户密码")
+    public JsonResult<String> ResetPassword(@RequestBody Yonghu yonghu){
+        JsonResult<String> res = new JsonResult<String>();
+        String code = null;
+        String email = null;
+        try {
+            code = jdbc.queryForObject("SELECT code FROM yonghu WHERE ID = ?",String.class,yonghu.getId());
+            email = jdbc.queryForObject("SELECT email FROM yonghu WHERE ID = ?",String.class,yonghu.getId());
+        } catch (DataAccessException e) {
+            res.setCode(201);
+            res.setResult("未知错误");
+            e.printStackTrace();
+            return res;
+        }
+        log.info("验证码为：{}",code);
+        log.info("传入数据为：{}",yonghu.getCode());
+        if ( email!=null &&code!=null){
+            if(code.equals(yonghu.getCode()) && yonghu.getPassword() != null && yonghu.getEmail().equals(email)){
+                jdbc.update("update yonghu set password=?,code = ? where id=?",yonghu.getPassword(),null,yonghu.getId());
+                res.setCode(200);
+                res.setResult("重置密码成功");
+            }
+            else{
+                res.setCode(201);
+                res.setResult("重置密码失败");
+            }
+
+            return res;
+        }
+        else {
+            res.setCode(201);
+            res.setResult("重置密码失败");
+            return res;
+        }
     }
 
 

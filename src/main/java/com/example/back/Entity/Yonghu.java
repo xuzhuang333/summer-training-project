@@ -43,7 +43,7 @@ public class Yonghu {
     @ApiModelProperty(value = "原密码")
     private Integer orgin_password;
     @ApiModelProperty(value = "验证码")
-    private Integer code;
+    private String code;
     @ApiModelProperty(value = "注册时间")
     private Time register_time;
 
@@ -57,11 +57,11 @@ public class Yonghu {
         this.register_time = register_time;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

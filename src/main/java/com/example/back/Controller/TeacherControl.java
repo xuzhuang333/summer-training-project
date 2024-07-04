@@ -1,5 +1,6 @@
 package com.example.back.Controller;
 
+import com.example.back.beans.Classes;
 import com.example.back.beans.JsonResult;
 import com.example.back.beans.NoticeForPost;
 import io.swagger.annotations.Api;
@@ -7,10 +8,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -64,6 +67,66 @@ public class TeacherControl {
             dys.add(dys2);
             dys.add(dys3);
             res.setResult(dys);
+            res.setCode(200);
+            return res;
+        } catch (DataAccessException e) {
+            res.setResult("查询失败");
+            res.setCode(201);//
+            return res;
+        }
+    }
+
+    @GetMapping("/dataAnalysis1/{College}")//学生数据分析
+    @ApiOperation(value = "学生数据分析1")
+    public JsonResult dataAnalysis1(@PathVariable String College ) {
+        System.out.println("数据分析1");
+        System.out.println(College);
+        JsonResult res = new JsonResult();
+
+        ArrayList<Integer> data=new ArrayList<>();
+        int total;
+        total = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie = ?",
+                Integer.class, College, 0);
+
+        int num1;
+        num1 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie =? and gender = ?",
+                Integer.class, College, 0, "男");
+
+        int num2;
+        num2 = total - num1;
+
+        int num3;
+        num3 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie=? and politics=?",
+                Integer.class, College, 0, 1);
+
+        int num4;
+        num4 = total - num3;
+
+        data.add(total);
+        data.add(num1);
+        data.add(num2);
+        data.add(num3);
+        data.add(num4);
+
+        res.setResult(data);
+        res.setCode(200);
+        return res;
+    }
+
+
+    @GetMapping("/dataAnalysis2/{College}")//学生数据分析
+    @ApiOperation(value = "学生数据分析2")
+    public JsonResult dataAnalysis2(@PathVariable String College ){
+        System.out.println("数据分析2");
+        System.out.println(College);
+
+        JsonResult res = new JsonResult();
+        try {
+            List<Classes> classesList=null;
+            classesList=jdbc.query("select major_class,count(*) as number from yonghu where college=? and leibie=? group by major_class",
+                    new BeanPropertyRowMapper<>(Classes.class),College,0);
+
+            res.setResult(classesList);
             res.setCode(200);
             return res;
         } catch (DataAccessException e) {

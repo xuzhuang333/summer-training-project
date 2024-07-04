@@ -202,13 +202,13 @@ public class DaPingController {
         try {
             // 定义查询时间段的 SQL 语句
             String[] queries = {
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '07:00:00' AND '09:00:00'",
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '09:00:00' AND '11:00:00'",
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '11:00:00' AND '13:00:00'",
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '13:00:00' AND '15:00:00'",
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '15:00:00' AND '17:00:00'",
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '17:00:00' AND '19:00:00'",
-                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 AND register_time BETWEEN '19:00:00' AND '21:00:00'"
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '07:00:00' AND '09:00:00'",
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '09:00:00' AND '11:00:00'",
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '11:00:00' AND '13:00:00'",
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '13:00:00' AND '15:00:00'",
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '15:00:00' AND '17:00:00'",
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '17:00:00' AND '19:00:00'",
+                    "SELECT COUNT(*) FROM yonghu WHERE leibie = 0 and activate = 1 AND register_time BETWEEN '19:00:00' AND '21:00:00'"
             };
 
             // 创建一个数组来存储查询结果
@@ -260,6 +260,43 @@ public class DaPingController {
             res.setCode("200");
             res.setMsg("连接成功");
             res.setResult(collegeData);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            res.setCode("201");
+            res.setMsg("连接失败");
+        }
+        return res;
+    }
+
+    @GetMapping("/province")
+    public JsonResultZDK province() {
+        JsonResultZDK res = new JsonResultZDK();
+        try {
+            // 查询数据库，获取前十个省份名字和人数
+            List<Home> provinces = jdbc.query(
+                    "SELECT home AS name, COUNT(*) AS value FROM yonghu WHERE leibie = 0 GROUP BY home ORDER BY value DESC LIMIT 10",
+                    new BeanPropertyRowMapper<>(Home.class)
+            );
+
+            // 创建两个数组来存储省份名字和人数
+            String[] names = new String[provinces.size()];
+            Integer[] values = new Integer[provinces.size()];
+
+            // 遍历查询结果，填充数组
+            for (int i = 0; i < provinces.size(); i++) {
+                names[i] = provinces.get(i).getName();
+                values[i] = provinces.get(i).getValue();
+            }
+
+            // 创建 ProvinceData 对象来封装两个数组
+            HomeData homeData = new HomeData();
+            homeData.setNames(names);
+            homeData.setValues(values);
+
+            // 设置响应结果
+            res.setCode("200");
+            res.setMsg("连接成功");
+            res.setResult(homeData);
         } catch (DataAccessException e) {
             e.printStackTrace();
             res.setCode("201");
