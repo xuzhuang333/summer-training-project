@@ -279,7 +279,7 @@ public class StudentController {
         num2 = total - num1;
 
         int num3;
-        num3 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie=? and activate=?",
+        num3 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie=? and politics=?",
                 Integer.class, College, 0, 1);
 
         int num4;
