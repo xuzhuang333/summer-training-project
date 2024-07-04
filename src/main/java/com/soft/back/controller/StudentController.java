@@ -68,7 +68,8 @@ public class StudentController {
         JsonResult res = new JsonResult();
         try {
             List<Notice> dys=null;
-            dys =  jdbc.query("select notice_title,DATE(time) as time,content from notice",new BeanPropertyRowMapper<>(Notice.class));
+            dys =  jdbc.query("select notice_title,DATE(time) as time,content from notice",
+                    new BeanPropertyRowMapper<>(Notice.class));
             res.setResult(dys);//数据
             res.setCode(200);//代码  成功0
             return res;
@@ -236,9 +237,9 @@ public class StudentController {
         JsonResult res = new JsonResult();
         try {
             ArrayList<Integer>dys = new ArrayList<>();
-            Integer dys1;
-            Integer dys2;
-            Integer dys3;
+            int dys1;
+            int dys2;
+            int dys3;
 
             dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
                     Integer.class,College);
@@ -259,27 +260,55 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/dataAnalysis/{College}")//学生数据分析
-    public JsonResult dataAnalysis(@PathVariable String College ){
-        System.out.println("数据分析");
+    @GetMapping("/dataAnalysis1/{College}")//学生数据分析
+    public JsonResult dataAnalysis1(@PathVariable String College ) {
+        System.out.println("数据分析1");
+        System.out.println(College);
+        JsonResult res = new JsonResult();
+
+        ArrayList<Integer> data=new ArrayList<>();
+        int total;
+        total = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie = ?",
+                Integer.class, College, 0);
+
+        int num1;
+        num1 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie =? and gender = ?",
+                Integer.class, College, 0, "男");
+
+        int num2;
+        num2 = total - num1;
+
+        int num3;
+        num3 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie=? and activate=?",
+                Integer.class, College, 0, 1);
+
+        int num4;
+        num4 = total - num3;
+
+        data.add(total);
+        data.add(num1);
+        data.add(num2);
+        data.add(num3);
+        data.add(num4);
+
+        res.setResult(data);
+        res.setCode(200);
+        return res;
+    }
+
+
+    @GetMapping("/dataAnalysis2/{College}")//学生数据分析
+    public JsonResult dataAnalysis2(@PathVariable String College ){
+        System.out.println("数据分析2");
+        System.out.println(College);
 
         JsonResult res = new JsonResult();
         try {
-            ArrayList<Integer>dys = new ArrayList<>();
-            Integer dys1;
-            Integer dys2;
-            Integer dys3;
+            List<Classes> classesList=null;
+            classesList=jdbc.query("select major_class,count(*) as number from yonghu where college=? and leibie=? group by major_class",
+                    new BeanPropertyRowMapper<>(Classes.class),College,0);
 
-            dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
-                    Integer.class,College);
-            dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
-                    Integer.class,College,1);
-            dys3 = dys1-dys2;
-
-            dys.add(dys1);
-            dys.add(dys2);
-            dys.add(dys3);
-            res.setResult(dys);
+            res.setResult(classesList);
             res.setCode(200);
             return res;
         } catch (DataAccessException e) {
