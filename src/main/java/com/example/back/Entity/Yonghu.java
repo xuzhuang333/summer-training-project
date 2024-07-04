@@ -2,6 +2,9 @@ package com.example.back.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.sql.Time;
+import java.time.LocalTime;
+
 //定义用来查询个人信息使用的用户数据，查询需要所有的信息！
 @ApiModel(value = "学生用户信息的实体类")
 public class Yonghu {
@@ -39,6 +42,28 @@ public class Yonghu {
     private String home;
     @ApiModelProperty(value = "原密码")
     private Integer orgin_password;
+    @ApiModelProperty(value = "验证码")
+    private Integer code;
+    @ApiModelProperty(value = "注册时间")
+    private Time register_time;
+
+    public Time getRegister_time() {
+        return register_time;
+    }
+    public void setRegisterTimeToLocalNow() {
+        this.register_time = Time.valueOf(LocalTime.now());
+    }
+    public void setRegister_time(Time register_time) {
+        this.register_time = register_time;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 
     public Integer getOrgin_password() {
         return orgin_password;
@@ -199,6 +224,8 @@ public class Yonghu {
                 ", politics='" + politics + '\'' +
                 ", home='" + home + '\'' +
                 ", orgin_password=" + orgin_password +
+                ", code=" + code +
+                ", register_time=" + register_time +
                 '}';
     }
 }

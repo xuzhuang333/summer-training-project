@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+
 @RestController
 @CrossOrigin
 @Slf4j
@@ -60,9 +62,13 @@ public class AllLogin {
             //修改激活状态
             if(user.getActivate()!=1){
                 try {
-                    int update=jdbc.update("update yonghu set activate=? where id=?",
-                            1,yonghu.getId());
+                    yonghu.setRegisterTimeToLocalNow();
+                    log.info("注册时间:{}",yonghu.getRegister_time());
+                    jdbc.update("update yonghu set activate=? , email=?,register_time=? where id=? AND code = ?",
+                            1,yonghu.getEmail(),yonghu.getRegister_time(),yonghu.getId(),yonghu.getCode());
                     //返回更新后的用户信息
+                    jdbc.update("update yonghu set code=? where id=?",
+                            null,yonghu.getId());
                     user = jdbc.queryForObject("select * from yonghu where id = ?",
                             new BeanPropertyRowMapper<>(Yonghu.class), yonghu.getId());
 

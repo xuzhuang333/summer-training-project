@@ -6,3 +6,18 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #邮箱服务器
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 3302821496@qq.com
+    password: uyiesfeazkdocjeh
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: false
