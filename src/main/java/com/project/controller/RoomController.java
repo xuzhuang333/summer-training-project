@@ -90,8 +90,9 @@ public class RoomController {
     public JsonResult roomagreee(@RequestBody Agreedata agreedata){
         JsonResult res = new JsonResult();
         try {
-            if("1".equals(agreedata.getSubmit())){
+            if(agreedata.getSubmit() == 1){
                 jdbc.update("update yonghu set dormitory_state = 0 where id = ?",agreedata.getId());
+                jdbc.update("delete from yonghu where id = ?",agreedata.getId());
                 jdbc.update("delete from roomagree where studentid = ?",agreedata.getId());
                 res.setCode("200");
                 res.setMsg("审批成功");
