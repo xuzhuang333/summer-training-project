@@ -29,7 +29,7 @@ public class DaPingController {
         ArrayList<Sexdaping>sex = new ArrayList<>();
 
         int num1;
-        num1 = jdbc.queryForObject("select count(*) from yonghu where gender=? ",
+        num1 = jdbc.queryForObject("select count(*) from yonghu where gender=? and leibie=0",
                 Integer.class,"男");
         Sexdaping sexdaping1 = new Sexdaping();
         sexdaping1.setValue(num1);
@@ -84,14 +84,14 @@ public class DaPingController {
         ArrayList<Leibiedaping> leibie = new ArrayList<>();
 
         int num1;
-        num1 = jdbc.queryForObject("select count(*) from yonghu where politics=? ",
+        num1 = jdbc.queryForObject("select count(*) from yonghu where politics=? and leibie= 0",
                 Integer.class,1);
         Leibiedaping leibiedaping1=new Leibiedaping();
         leibiedaping1.setValue(num1);
         leibiedaping1.setName("团员");
 
         int num2;
-        num2 = jdbc.queryForObject("select count(*) from yonghu where politics=? ",
+        num2 = jdbc.queryForObject("select count(*) from yonghu where politics=? and leibie=0 ",
                 Integer.class,0);
         Leibiedaping leibiedaping2=new Leibiedaping();
         leibiedaping2.setValue(num2);
