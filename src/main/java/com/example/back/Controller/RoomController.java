@@ -3,6 +3,7 @@ package com.example.back.Controller;
 
 import com.example.back.Entity.Yonghu;
 import com.example.back.beans.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@Slf4j
 public class RoomController {
 
     @Autowired
@@ -91,8 +93,9 @@ public class RoomController {
     public JsonResultZDK roomagreee(@RequestBody Agreedata agreedata){
         JsonResultZDK res = new JsonResultZDK();
         try {
-            if("1".equals(agreedata.getSubmit())){
+            if(agreedata.getSubmit() == 1){
                 jdbc.update("update yonghu set dormitory_state = 0 where id = ?",agreedata.getId());
+                jdbc.update("update yonghu set dormitory_number = NULL where id = ?",agreedata.getId());
                 jdbc.update("delete from roomagree where studentid = ?",agreedata.getId());
                 res.setCode("200");
                 res.setMsg("审批成功");

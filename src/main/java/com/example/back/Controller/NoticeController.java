@@ -27,7 +27,8 @@ public class NoticeController {
         JsonResult res = new JsonResult();
         try {
             List<Notice> dys=null;
-            dys =  jdbc.query("select notice_title,DATE(time) as time,content from notice order by time DESC",new BeanPropertyRowMapper<>(Notice.class));
+            dys =  jdbc.query("select notice_title,DATE(time) as time,content from notice order by notice_id DESC",new BeanPropertyRowMapper<>(Notice.class));
+            System.out.println(dys);
             res.setResult(dys);//数据
             res.setCode(200);//代码  成功0
             return res;

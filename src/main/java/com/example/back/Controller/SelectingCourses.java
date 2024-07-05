@@ -157,7 +157,8 @@ public class SelectingCourses {
         //获取选过的所有的课程信息
         log.info("传入的退课数据：{}",courseForDrop);
         try {
-            jdbc.update("UPDATE course SET now_capacity = now_capacity - 1 WHERE course_id = ?",courseForDrop.getCourse_id());
+            jdbc.update("UPDATE course SET now_capacity = now_capacity - 1  WHERE course_id = ?",courseForDrop.getCourse_id());
+            jdbc.update("UPDATE course SET state = 0  WHERE now_capacity <max_capacity AND course_id = ?",courseForDrop.getCourse_id());
             log.info("更新course表now_capacity成功");
             try {
                 jdbc.update("DELETE FROM courserelation WHERE course_id = ? AND student_id = ?",courseForDrop.getCourse_id(),courseForDrop.getStudent_id());

@@ -57,9 +57,9 @@ public class TeacherControl {
             Integer dys2;
             Integer dys3;
 
-            dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? ",
+            dys1 = jdbc.queryForObject("select count(*) from yonghu where college=? and leibie =0 ",
                     Integer.class,College);
-            dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=?",
+            dys2 = jdbc.queryForObject("select count(*) from yonghu where college=? and activate=? and leibie =0",
                     Integer.class,College,1);
             dys3 = dys1-dys2;
 

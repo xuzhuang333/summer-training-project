@@ -121,7 +121,7 @@ public class VacationRelated {
         try {
             List<Vacation> dys=null;
 
-            dys =  jdbc.query("select * from vacation where student_id=? and state !=?",
+            dys =  jdbc.query("select * from vacation where student_id=? and state !=? order by vacation_id DESC",
                     new BeanPropertyRowMapper<>(Vacation.class),Student_id,2);
 
             res.setResult(dys);
