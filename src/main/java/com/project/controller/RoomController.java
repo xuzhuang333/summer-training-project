@@ -92,7 +92,7 @@ public class RoomController {
         try {
             if(agreedata.getSubmit() == 1){
                 jdbc.update("update yonghu set dormitory_state = 0 where id = ?",agreedata.getId());
-                jdbc.update("delete from yonghu where id = ?",agreedata.getId());
+                jdbc.update("update yonghu set dormitory_number = NULL where id = ?",agreedata.getId());
                 jdbc.update("delete from roomagree where studentid = ?",agreedata.getId());
                 res.setCode("200");
                 res.setMsg("审批成功");
