@@ -2,6 +2,8 @@ package com.example.back.Controller;
 
 
 import com.example.back.Entity.Yonghu;
+import com.example.back.beans.HeadForPost;
+import com.example.back.beans.IdForPost;
 import com.example.back.beans.JsonResult;
 import com.example.back.beans.JsonResultZDK;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +11,7 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,5 +118,22 @@ public class UserController {
         }
     }
 
+    @PostMapping("/head")
+    @ApiOperation(value = "头像上传")
+    public JsonResult<Yonghu> head(@RequestBody HeadForPost headForPost){
+        JsonResult<Yonghu> result = new JsonResult<>();
+        Yonghu yonghu = null;
+        try {
+            jdbc.update("update yonghu set url = ? where id = ?",headForPost.getUrl(),headForPost.getId());
+            yonghu = jdbc.queryForObject("select * from yonghu where id=?",new BeanPropertyRowMapper<>(Yonghu.class),headForPost.getId());
+            result.setCode(200);
+            result.setResult(yonghu);
+        } catch (DataAccessException e) {
+            result.setCode(201);
+            result.setResult(yonghu);
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }

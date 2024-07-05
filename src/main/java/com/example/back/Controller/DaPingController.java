@@ -36,7 +36,7 @@ public class DaPingController {
         sexdaping1.setName("男");
 
         int num2;
-        num2 = jdbc.queryForObject("select count(*) from yonghu where gender=? ",
+        num2 = jdbc.queryForObject("select count(*) from yonghu where gender=? and leibie=0",
                 Integer.class,"女");
         Sexdaping sexdaping2 = new Sexdaping();
         sexdaping2.setValue(num2);

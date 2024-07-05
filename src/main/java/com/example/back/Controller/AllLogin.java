@@ -29,9 +29,9 @@ public class AllLogin {
         try {
             Yonghu yonghu3= jdbc.queryForObject("select * from yonghu where id=? and password=?",new BeanPropertyRowMapper<>(Yonghu.class),yonghu.getId(),yonghu.getPassword());
             if(yonghu3.getActivate() == 1){
-                log.info("登录成功:{}",yonghu2);
                 yonghu2.setResult(yonghu3);
                 yonghu2.setCode(200);
+                log.info("登录成功:{}",yonghu2);
                 return yonghu2;
             }
             else{

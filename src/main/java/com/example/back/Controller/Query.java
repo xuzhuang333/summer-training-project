@@ -30,11 +30,11 @@ public class Query {
         ArrayList<Yonghu> arrayList = new ArrayList<Yonghu>();
         Yonghu yonghu ;
         try {
-            yonghu = jdbc.queryForObject("SELECT * FROM yonghu where id=? and leibie != 1",new BeanPropertyRowMapper<>(Yonghu.class),id);
+            yonghu = jdbc.queryForObject("SELECT * FROM yonghu where id=? and leibie != 1 and dormitory_state = 1",new BeanPropertyRowMapper<>(Yonghu.class),id);
             list.add(yonghu.getDormitory_number());//加入寝室号
             log.info("学生存在:{}",yonghu);
             try {
-                arrayList = (ArrayList<Yonghu>) jdbc.query("SELECT * FROM yonghu where dormitory_number =? and name!= ? ",new BeanPropertyRowMapper<>(Yonghu.class),yonghu.getDormitory_number(),yonghu.getName());
+                arrayList = (ArrayList<Yonghu>) jdbc.query("SELECT * FROM yonghu where dormitory_number =? and name!= ? and dormitory_state = ?",new BeanPropertyRowMapper<>(Yonghu.class),yonghu.getDormitory_number(),yonghu.getName(),1);
                 log.info("找到室友");
                 int size = arrayList.size();
                 int number = 0;
@@ -51,7 +51,7 @@ public class Query {
             }
 
         } catch (DataAccessException e) {
-            log.error("ID不存在或ID不是学生ID！");
+            log.error("该学生为走读生！");
             arrayListJsonResult.setCode(202);
             e.printStackTrace();
         }

@@ -46,6 +46,26 @@ public class Yonghu {
     private String code;
     @ApiModelProperty(value = "注册时间")
     private Time register_time;
+    @ApiModelProperty(value = "住宿状态")
+    private Integer dormitory_state;
+    @ApiModelProperty(value = "头像本地地址")
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getDormitory_state() {
+        return dormitory_state;
+    }
+
+    public void setDormitory_state(Integer dormitory_state) {
+        this.dormitory_state = dormitory_state;
+    }
 
     public Time getRegister_time() {
         return register_time;
@@ -224,8 +244,10 @@ public class Yonghu {
                 ", politics='" + politics + '\'' +
                 ", home='" + home + '\'' +
                 ", orgin_password=" + orgin_password +
-                ", code=" + code +
+                ", code='" + code + '\'' +
                 ", register_time=" + register_time +
+                ", dormitory_state=" + dormitory_state +
+                ", url=" + url +
                 '}';
     }
 }
