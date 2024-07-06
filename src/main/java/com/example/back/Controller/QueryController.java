@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 @Api(tags = "查询一切信息的接⼝")
-public class Query {
+public class QueryController {
     @Autowired
     private JdbcTemplate jdbc;
 

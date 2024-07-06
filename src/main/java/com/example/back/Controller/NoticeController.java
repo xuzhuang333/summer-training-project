@@ -2,6 +2,8 @@ package com.example.back.Controller;
 
 import com.example.back.Entity.Notice;
 import com.example.back.beans.JsonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,12 +18,15 @@ import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin
+
+@Api(tags = "首页公告展示的接口")
 public class NoticeController {
     @Autowired
     private JdbcTemplate jdbc;
 
 
     @GetMapping("/notices")
+    @ApiOperation(value = "首页公告展示")
     public JsonResult notices(){
         System.out.println("公告");
         JsonResult res = new JsonResult();

@@ -1,5 +1,8 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "同JsonResult")
 public class JsonResultZDK {
     private String code;
     private Object result;

@@ -4,6 +4,8 @@ import com.example.back.Entity.Yonghu;
 import com.example.back.beans.EmailForPost;
 import com.example.back.beans.JsonResult;
 import com.example.back.service.MailService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
+@Api(tags = "发送邮件验证码的接口")
 public class EmailController {  // 更正了类名
     @Autowired
     private JdbcTemplate jdbc;
@@ -20,6 +23,7 @@ public class EmailController {  // 更正了类名
     private MailService mailService;  // 注入 MailService
 
     @PostMapping("/sendemailcode")
+    @ApiOperation(value = "发送邮箱验证码")
     public JsonResult<String> emailVerification(@RequestBody EmailForPost emailForPost) {
         JsonResult<String> result = new JsonResult<>();
         Yonghu yonghu;

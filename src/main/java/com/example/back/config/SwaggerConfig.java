@@ -31,9 +31,9 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 // 设置⻚⾯标题
-                .title("学⽣迎新管理系统接⼝")
+                .title("学生迎新管理系统接口")
                 // 设置接⼝描述
-                .description("测试用/接⼝描述")
+                .description("测试用/接口描述")
                 // 设置版本
                 .version("1")
                 // 构建

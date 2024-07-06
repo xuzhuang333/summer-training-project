@@ -1,14 +1,21 @@
 package com.example.back.beans;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "课表需要数据的对象类")
 public class CourseTable {
+    @ApiModelProperty(value = "课程名")
     private String course_name;
+    @ApiModelProperty(value = "上课教室")
     private String course_room;
+    @ApiModelProperty(value = "课程开始日期")
     private String startDate;
+    @ApiModelProperty(value = "星期号")
     private String week;
+    @ApiModelProperty(value = "一天第几节")
     private int time;
+    @ApiModelProperty(value = "持续周次")
     private int duration;
 
     public String getCourse_name() {

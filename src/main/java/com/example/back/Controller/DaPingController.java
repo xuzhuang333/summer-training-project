@@ -3,6 +3,7 @@ package com.example.back.Controller;
 
 import com.example.back.beans.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -21,7 +22,7 @@ public class DaPingController {
     @Autowired
     private JdbcTemplate jdbc;
 
-
+    @ApiOperation(value = "性别展示")
     @GetMapping("/sex")
     public JsonResult<List<Sexdaping>> sex(){
         JsonResult res = new JsonResult();
@@ -50,6 +51,7 @@ public class DaPingController {
     }
 
     @GetMapping("/baodao")
+    @ApiOperation(value = "学生报道展示")
     public JsonResult<List<Baodaodaping>> baodao(){
         JsonResult res = new JsonResult();
         //需要返回一个包含两个元素的数组（第一个元素代表已报道，第二个元素代表未报到），数组中的元素是Baodaodaping类
@@ -78,6 +80,7 @@ public class DaPingController {
     }
 
     @GetMapping("/leibie")
+    @ApiOperation(value = "政治面貌展示")
     public JsonResult<List<Leibiedaping>> leibie(){
         JsonResult res = new JsonResult();
         //需要返回一个包含两个元素的数组（第一个元素代表团员，第二个元素代表群众），数组中的元素是Leibiedaping类
@@ -106,6 +109,7 @@ public class DaPingController {
     }
 
     @GetMapping("/minzu")
+    @ApiOperation(value = "民族展示")
     public JsonResult<List<Minzudaping>> minzu(){
         JsonResult res = new JsonResult();
         //需要返回一个包含八个元素的数组（代表不同民族），数组中的元素是Minzudaping类
@@ -183,6 +187,7 @@ public class DaPingController {
 
     }
     @GetMapping("/home")
+    @ApiOperation(value = "地图数据展示")
     public JsonResultZDK home(){
         JsonResultZDK res = new JsonResultZDK();
         List<Home> homes = null;
@@ -201,6 +206,7 @@ public class DaPingController {
     }
 
     @GetMapping("/time")
+    @ApiOperation(value = "注册时间展示")
     public JsonResultZDK time() {
         JsonResultZDK res = new JsonResultZDK();
         try {
@@ -236,6 +242,7 @@ public class DaPingController {
     }
 
     @GetMapping("/college")
+    @ApiOperation(value = "学院人数展示")
     public JsonResultZDK college() {
         JsonResultZDK res = new JsonResultZDK();
         try {
@@ -273,6 +280,7 @@ public class DaPingController {
     }
 
     @GetMapping("/province")
+    @ApiOperation(value = "学生家乡展示")
     public JsonResultZDK province() {
         JsonResultZDK res = new JsonResultZDK();
         try {

@@ -16,7 +16,7 @@ import java.sql.Time;
 @RestController
 @CrossOrigin
 @Slf4j
-@Api(tags = "控制⽤户登录的接⼝")
+@Api(tags = "控制用户登录的接口")
 public class AllLogin {
     @Autowired
     private JdbcTemplate jdbc;

@@ -1,12 +1,17 @@
 package com.example.back.beans;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "用来构建第二页选择的课程的类")
 public class StateForCourse {
+    @ApiModelProperty(value = "课程ID")
     private Integer course_id;
+    @ApiModelProperty(value = "最大容量")
     private Integer max_capacity;
+    @ApiModelProperty(value = "最新容量")
     private Integer min_capacity;
+    @ApiModelProperty(value = "课程状态。0:可以选，1：选满，2：选过了，3：已选了")
     private Integer state;
 
     public Integer getCourse_id() {

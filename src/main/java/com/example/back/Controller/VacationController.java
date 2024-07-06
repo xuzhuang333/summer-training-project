@@ -19,7 +19,7 @@ import java.util.List;
 @CrossOrigin
 @Slf4j
 @Api(tags = "假期相关接口")
-public class VacationRelated {
+public class VacationController {
     @Autowired
     private JdbcTemplate jdbc;
 
@@ -72,6 +72,7 @@ public class VacationRelated {
 
 
     @PostMapping("/agreehome")
+    @ApiOperation(value = "展示所有请假信息")
     public JsonResultZDK agreehome(@RequestBody Vacation vacations){
         JsonResultZDK res = new JsonResultZDK();
         List<Vacation> vacation =null;
@@ -90,6 +91,7 @@ public class VacationRelated {
     }
 
     @PostMapping("/agree")
+    @ApiOperation(value = "批假操作")
     public JsonResultZDK agree(@RequestBody Agreedata agreedata){
         JsonResultZDK res = new JsonResultZDK();
         try {

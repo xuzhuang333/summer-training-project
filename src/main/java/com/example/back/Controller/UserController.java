@@ -6,6 +6,7 @@ import com.example.back.beans.HeadForPost;
 import com.example.back.beans.IdForPost;
 import com.example.back.beans.JsonResult;
 import com.example.back.beans.JsonResultZDK;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @Slf4j
+
+
+@Api(tags = "修改用户数据的接口")
 public class UserController {
 
     @Autowired

@@ -1,16 +1,29 @@
 package com.example.back.beans;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "课程数据的对象类")
 public class Course {
 
+  @ApiModelProperty(value = "课程ID")
   private long course_id;
+  @ApiModelProperty(value = "课程名")
   private String course_name;
+  @ApiModelProperty(value = "上课教室")
   private String course_room;
+  @ApiModelProperty(value = "科任教师")
   private String course_teacher;
+  @ApiModelProperty(value = "星期号")
   private String week;
+  @ApiModelProperty(value = "一天第几节课")
   private long time;
+  @ApiModelProperty(value = "最大容量")
   private long max_capacity;
+  @ApiModelProperty(value = "最新容量")
   private long now_people;
+  @ApiModelProperty(value = "课程号")
   private String course_num;
 
   public long getCourse_id() {

@@ -1,11 +1,15 @@
 package com.example.back.beans;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "前端传来的退课数据")
 public class CourseForDrop {
+    @ApiModelProperty(value = "学生ID")
     private Integer student_id;
+    @ApiModelProperty(value = "课程名")
     private String  course_name;
+    @ApiModelProperty(value = "课程号")
     private Integer course_id;
 
     public Integer getCourse_id() {

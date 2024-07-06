@@ -1,13 +1,22 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 
+@ApiModel(value = "后端传送的图书信息对象类")
 public class Book {
-
+  @ApiModelProperty(value = "图书ID")
   private long id;
+  @ApiModelProperty(value = "图书名字")
   private String name;
+  @ApiModelProperty(value = "作者")
   private String author;
+  @ApiModelProperty(value = "校区")
   private String area;
+  @ApiModelProperty(value = "图书位置")
   private String location;
+  @ApiModelProperty(value = "借出状态。0：未借出；1：已借出")
   private long borrowed;
 
 

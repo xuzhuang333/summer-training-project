@@ -1,7 +1,13 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "前端上传头像发送的对象类")
 public class HeadForPost {
+    @ApiModelProperty(value = "学生ID")
     private Integer id;
+    @ApiModelProperty(value = "学生url")
     private String url;
 
     public Integer getId() {

@@ -1,10 +1,19 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "给前端返回寝室审批数据时用的类，包含状态码code和数据result，提示信息msg，数据等")
 public class JsonResult1 {
+    @ApiModelProperty(value =  "状态码")
     private String code;
+    @ApiModelProperty(value =  "结果")
     private Object result;
+    @ApiModelProperty(value =  "提示信息")
     private String msg;
+    @ApiModelProperty(value =  "总审批数")
     private Integer totalnum;
+    @ApiModelProperty(value =  "未审批数")
     private Integer livenum;
 
     public String getCode() {

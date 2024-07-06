@@ -1,13 +1,23 @@
 package com.example.back.beans;
 
-public class Roomagree {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(value = "接受前端传过来的寝室申请信息")
+public class Roomagree {
+    @ApiModelProperty(value = "学生电话")
     private String phone;
+    @ApiModelProperty(value = "申请原因")
     private String reason;
+    @ApiModelProperty(value = "学生名字")
     private String studentname;
+    @ApiModelProperty(value = "学院")
     private String college;
+    @ApiModelProperty(value = "学生ID")
     private String studentid;
+    @ApiModelProperty(value = "住宿状态")
     private String state;
+    @ApiModelProperty(value = "寝室号")
     private String dormitory_number;
 
     public String getPhone() {

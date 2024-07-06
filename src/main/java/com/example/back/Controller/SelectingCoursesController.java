@@ -20,7 +20,7 @@ import java.util.ArrayList;
 @CrossOrigin
 @Slf4j
 @Api(tags = "选课接口")
-public class SelectingCourses {
+public class SelectingCoursesController {
     @Autowired
     private JdbcTemplate jdbc;
 

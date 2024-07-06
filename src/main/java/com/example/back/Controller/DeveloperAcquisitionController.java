@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @Slf4j
 @Api(tags = "开发者接口（获取反馈）")
-public class DeveloperAcquisition {
+public class DeveloperAcquisitionController {
     @Autowired
     private JdbcTemplate jdbc;
 

@@ -1,12 +1,17 @@
 package com.example.back.beans;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "第一个选课页面需要的数据")
 public class FirstSelectingCourse {
+    @ApiModelProperty(value = "课程名")
     private String course_name;
+    @ApiModelProperty(value = "课程号")
     private String course_num;
+    @ApiModelProperty(value = "学分")
     private Integer credit;
+    @ApiModelProperty(value = "课程状态。0为为选满、1为选满")
     private Integer state;
 
     public String getCourse_name() {

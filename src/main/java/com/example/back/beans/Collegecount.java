@@ -1,7 +1,13 @@
 package com.example.back.beans;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "大屏学院名称和人数的对象类")
 public class Collegecount {
+    @ApiModelProperty(value = "学院名称")
     private String name;
+    @ApiModelProperty(value = "学院人数")
     private Integer num;
 
     public String getName() {
