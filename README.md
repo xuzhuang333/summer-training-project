@@ -1,2 +1,2 @@
-# summer-training-project
-Chongqing University 2022 Computer School Practical Training Program
+# 重庆大学计算机学院暑期实训
+重庆大学2022年计算机学院暑期实训项目
